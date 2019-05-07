@@ -1,0 +1,15 @@
+.Home .lander {
+    padding: 30px 0;
+    text-align: center;
+    align-items: center;
+    width: 50%;
+    margin: 50px auto;
+}
+
+.Home .lander input {
+    box-shadow: 5px 5px 5px gray;
+}
+
+.Home .lander p {
+    padding: 10%;
+}

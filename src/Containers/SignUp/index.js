@@ -7,6 +7,7 @@ export default class Index extends Component {
         event.preventDefault();
         try {
             this.props.userHasAuthenticated(true);
+            this.props.history.push('/notes');
         } catch (e) {
             alert(e.message);
         }
