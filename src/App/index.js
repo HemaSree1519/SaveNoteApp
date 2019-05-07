@@ -17,12 +17,12 @@ class App extends Component {
                   <Nav>
                       <LinkContainer to="/signup">
                       <NavItem>
-                          <NavLink href="/components/" className="link">Signup</NavLink>
+                          <NavLink href="/signup" className="link">Signup</NavLink>
                       </NavItem>
                       </LinkContainer>
                       <LinkContainer to="/login">
                       <NavItem>
-                          <NavLink href="/components/" className="link">Login</NavLink>
+                          <NavLink href="/login" className="link">Login</NavLink>
                       </NavItem>
                       </LinkContainer>
                   </Nav>
