@@ -1,47 +1,61 @@
-.Home .lander {
+.dash-board .write-note {
     padding: 10px 0;
     text-align: center;
     align-items: center;
     width: 50%;
     margin: 50px auto;
 }
-.Home .title {
+
+.dash-board .card-title {
     font-weight: bold;
 }
-.Home .lander input {
-    box-shadow: 5px 5px 5px gray;
+
+.note-input {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.20);
 }
 
-.Home .lander p {
+.dash-board .write-note p {
     padding: 10%;
 }
+
 .modal-header .close {
-    display:none;
+    display: none;
 }
+
 .modal-header {
     border-bottom: 0 none;
 }
+
 .modal-footer {
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    border-top: 0 none;
 }
-.modal-input {
+
+.note-card-input {
     border: 0 none;
-    box-shadow: none!important;
+    box-shadow: none !important;
     outline: none;
 }
-.footer-button{
+
+.footer-button {
     background-color: white;
     border: 0 none;
-    color: rgba(0,0,0,0.87);
+    color: rgba(0, 0, 0, 0.87);
     line-height: 1.25rem;
     padding: 8px 24px;
     font-weight: bold;
 }
-.footer-label{
+
+.footer-button:hover {
+    background-color: #f7f7f7;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.footer-container {
     text-align-last: end;
 }
-.footer-edited {
-  font-size: small;
+
+.footer-edited-time {
+    font-size: small;
     color: #999999;
     padding-left: 100px;
 }
