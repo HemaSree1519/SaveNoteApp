@@ -1,8 +1,17 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "./style.css";
 import {Button, Col, Container, Form, FormGroup, Input, Label} from "reactstrap";
 
 export default class Index extends Component {
+    handleSignUp = async event => {
+        event.preventDefault();
+        try {
+            this.props.userHasAuthenticated(true);
+        } catch (e) {
+            alert(e.message);
+        }
+    };
+
     render() {
         return (
             <div>
@@ -27,7 +36,7 @@ export default class Index extends Component {
                                     <Input type="password" placeholder="********"/>
                                 </FormGroup>
                             </Col>
-                            <Button>SignUp</Button>
+                            <Button onClick={this.handleSignUp}>SignUp</Button>
                         </Form>
                     </Container>
                 </div>

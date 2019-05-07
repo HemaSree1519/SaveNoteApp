@@ -3,6 +3,15 @@ import "./style.css";
 import {Button, Col, Container, Form, FormGroup, Input, Label} from "reactstrap";
 
 export default class Index extends Component {
+    handleLogin = async event => {
+        event.preventDefault();
+        try {
+            this.props.userHasAuthenticated(true);
+        } catch (e) {
+            alert(e.message);
+        }
+    };
+
     render() {
         return (
             <div>
@@ -21,7 +30,7 @@ export default class Index extends Component {
                                     <Input type="password" placeholder="********"/>
                                 </FormGroup>
                             </Col>
-                            <Button>Login</Button>
+                            <Button onClick={this.handleLogin}>Login</Button>
                         </Form>
                     </Container>
                 </div>
