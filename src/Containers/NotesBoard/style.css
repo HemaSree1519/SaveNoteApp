@@ -5,7 +5,9 @@
     width: 50%;
     margin: 50px auto;
 }
-
+.Home .title {
+    font-weight: bold;
+}
 .Home .lander input {
     box-shadow: 5px 5px 5px gray;
 }
