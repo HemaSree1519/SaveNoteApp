@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import "./style.css";
-import {Button, Col, Container, Form, FormGroup, Input, Label} from "reactstrap";
+import {Button, Col, Form, FormGroup, Input, Label} from "reactstrap";
 
 export default class Index extends Component {
     handleLogin = async event => {
@@ -15,10 +15,7 @@ export default class Index extends Component {
 
     render() {
         return (
-            <div>
-                <div className="login-form">
-                    <Container>
-                        <Form className="form">
+                        <Form size="sm">
                             <Col>
                                 <FormGroup>
                                     <Label>Email</Label>
@@ -33,9 +30,6 @@ export default class Index extends Component {
                             </Col>
                             <Button onClick={this.handleLogin}>Login</Button>
                         </Form>
-                    </Container>
-                </div>
-            </div>
         );
     }
 }
