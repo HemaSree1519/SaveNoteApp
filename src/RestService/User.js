@@ -1,13 +1,25 @@
+// export const getAllUsers= async () => {
+//     const response = await fetch('/notesaver/users');
+//     const body = await response.json();
+// };
 
-export const getAllUsers= async () => {
-    const response = await fetch('/notesaver/users');
-    const body = await response.json();
+export const getUserByEmail = async (email) => {
+    try {
+        const response = await fetch('/notesaver/users/' + email);
+        if (response.status === 200) {
+            return await response.json();
+        }
+        else {
+            return false;
+        }
+    } catch (e) {
+    }
 };
 
-export const createUser= (user) => {
+export const createUser = (user) => {
     return new Promise(async function (resolve, reject) {
         try {
-            const response= await fetch('/notesaver/users/add', {
+            const response = await fetch('/notesaver/users/add', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
