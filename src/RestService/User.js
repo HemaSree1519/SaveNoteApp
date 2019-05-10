@@ -1,8 +1,3 @@
-// export const getAllUsers= async () => {
-//     const response = await fetch('/notesaver/users');
-//     const body = await response.json();
-// };
-
 export const getUserByEmail = async (email) => {
     try {
         const response = await fetch('/notesaver/users/' + email);

@@ -16,14 +16,15 @@ import {
 } from "reactstrap";
 import Moment from 'moment'
 import {getUser} from "../../Session/UserSession";
-import {createNote, deleteNote, getAllNotesOfUser} from "../../RestService/Notes";
-import {formNoteDetails} from "./service";
+import {createNote, deleteNote, getAllNotesOfUser, updateNote} from "../../RestService/Notes";
+import {formNoteDetails, formUpdatedNote} from "./service";
 
 export default class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
             notes: [],
+            message: "Get your note saved with Save Note app",
             isEditing: false,
             isWritingNote: false,
             editingNote: '',
@@ -65,21 +66,28 @@ export default class Index extends Component {
             }
         });
         this.setState(prevState => ({
-            isEditingNote: !prevState.isEditingNote
+            isEditingNote: !prevState.isEditingNote,
+            editingNote: [],
+            currentNoteContent: '',
+            currentNoteTitle: ''
         }))
-    }
-    ;
+    };
     onWriteToggle = () => {
-        this.setState({
-            isWritingNote: !this.state.isWritingNote,
-            writingNoteTitle: '',
-            writingNoteContent: ''
-        })
-
+        if (getUser()) {
+            this.setState({
+                isWritingNote: !this.state.isWritingNote,
+                writingNoteTitle: '',
+                writingNoteContent: ''
+            })
+        }
+        else {
+            this.setState({
+                message: "Please loggin to add note"
+            })
+        }
     };
 
     onWriteNoteTitle = (writingNoteTitle) => {
-        console.log(writingNoteTitle.target.value);
         this.setState({
             writingNoteTitle: writingNoteTitle.target.value
         })
@@ -87,7 +95,6 @@ export default class Index extends Component {
     };
 
     onWriteNoteContent = (writeNoteContent) => {
-        console.log(writeNoteContent.target.value);
         this.setState({
             writingNoteContent: writeNoteContent.target.value
         })
@@ -102,17 +109,30 @@ export default class Index extends Component {
         })
     };
     onEditNoteContent = (editedContent) => {
-        console.log(editedContent.target.value);
         this.setState({
             currentNoteContent: editedContent.target.value
         })
     };
 
     onEditNoteTitle = (editedTitle) => {
-        console.log(editedTitle.target.value);
         this.setState({
             currentNoteTitle: editedTitle.target.value
         })
+    };
+
+    onUpdateNote = () => {
+        const updatedNote = formUpdatedNote(this.state.editingNote, this.state.currentNoteTitle, this.state.currentNoteContent);
+        updateNote(this.state.editingNote["id"], updatedNote).then((repsonse) => {
+            if (repsonse === 200) {
+                this.getNotes().then();
+            }
+        });
+        this.setState(prevState => ({
+            isEditingNote: !prevState.isEditingNote,
+            editingNote: '',
+            currentNoteContent: '',
+            currentNoteTitle: ''
+        }))
     };
 
     render() {
@@ -144,15 +164,16 @@ export default class Index extends Component {
                 </div>
                 <div>
                     {!this.state.notes.length > 0 ?
-                        <i>"Get your note saved with Save Note app"</i>
+                        <i>{this.state.message}</i>
                         :
                         <CardColumns>
                             {
                                 this.state.notes.map((note) => {
                                     return (
-                                        <Card onClick={() => {
-                                            this.onEdit(note);
-                                        }}>
+                                        <Card
+                                            onClick={() => {
+                                                this.onEdit(note);
+                                            }}>
                                             <CardBody>
                                                 <CardTitle className="card-title">{note["title"]}</CardTitle>
                                                 <CardText>{note["content"]}</CardText>
@@ -186,7 +207,7 @@ export default class Index extends Component {
                         </ModalBody>
                         <ModalFooter className="modal-footer">
                             <Button className="footer-button" onClick={this.onDelete}>Delete</Button>{'  '}
-                            <Button className="footer-button" onClick={this.onEdit}>Close</Button>
+                            <Button className="footer-button" onClick={this.onUpdateNote}>Close</Button>
                         </ModalFooter>
                     </Modal>
                 </div>
