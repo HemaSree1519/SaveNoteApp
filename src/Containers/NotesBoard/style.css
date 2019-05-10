@@ -30,10 +30,19 @@
     border-top: 0 none;
 }
 
-.note-card-input {
+.note-card-content-input {
     border: 0 none;
     box-shadow: none !important;
     outline: none;
+    color: black;
+}
+
+.note-card-title-input {
+    border: 0 none;
+    box-shadow: none !important;
+    outline: none;
+    color: black;
+    font-weight: bold;
 }
 
 .footer-button {

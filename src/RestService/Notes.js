@@ -38,3 +38,20 @@ export const updateNote = async (id, editedNote) => {
         body: JSON.stringify(editedNote),
     });
 };
+
+export const deleteNote = (email, id) => {
+    return new Promise(async function (resolve, reject) {
+        try {
+            const response = await fetch('/notesaver/notes/' + email + '/' + id + '/delete', {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            resolve(response.status)
+        } catch (e) {
+            reject(e)
+        }
+    })
+};

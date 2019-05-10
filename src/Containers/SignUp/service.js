@@ -1,8 +1,8 @@
 export const isMatchingPassword = (password, rePassword) => {
-        return password === rePassword;
+    return password === rePassword;
 };
 
-export const formUserDetails=(email,password)=>{
+export const formUserDetails = (email, password) => {
     const userName = email.substring(0, email.lastIndexOf("@"));
     return {
         "email": email,

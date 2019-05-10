@@ -6,7 +6,7 @@ import {isAuthenticated} from "./service";
 import {setUser} from "../../Session/UserSession";
 
 let userEmail = '';
-let userPwd = '';
+let userPassword = '';
 export default class Index extends Component {
 
     constructor(props) {
@@ -20,7 +20,7 @@ export default class Index extends Component {
     handleLogin = async event => {
         event.preventDefault();
         try {
-            await isAuthenticated(userEmail, userPwd).then((responce) => {
+            await isAuthenticated(userEmail, userPassword).then((responce) => {
                 if (responce === true) {
                     this.props.userHasAuthenticated(true);
                     setUser(userEmail);
@@ -47,7 +47,7 @@ export default class Index extends Component {
 
     onPassword = (password) => {
         this.setErrorState(false, '');
-        userPwd = password.target.value;
+        userPassword = password.target.value;
     };
 
     render() {

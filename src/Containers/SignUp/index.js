@@ -7,8 +7,8 @@ import {CODES} from "../../ErrorCodes/codes";
 import {setUser} from "../../Session/UserSession";
 
 let userEmail = '';
-let userPwd = '';
-let userRePwd = '';
+let userPassword = '';
+let userReEnteredPassword = '';
 export default class Index extends Component {
     constructor(props) {
         super(props);
@@ -21,8 +21,8 @@ export default class Index extends Component {
     handleSignUp = async event => {
         event.preventDefault();
         try {
-            if (isMatchingPassword(userPwd, userRePwd)) {
-                await createUser(formUserDetails(userEmail, userRePwd)).then((response) => {
+            if (isMatchingPassword(userPassword, userReEnteredPassword)) {
+                await createUser(formUserDetails(userEmail, userPassword)).then((response) => {
                     switch (response) {
                         case 200 :
                             this.props.userHasAuthenticated(true);
@@ -59,11 +59,11 @@ export default class Index extends Component {
 
     onPassword = (password) => {
         this.setErrorState(false, '');
-        userPwd = password.target.value;
+        userPassword = password.target.value;
     };
 
-    onRePassword = (rePassword) => {
-        userRePwd = rePassword.target.value;
+    onReEnteredPassword = (rePassword) => {
+        userReEnteredPassword = rePassword.target.value;
     };
 
     render() {
@@ -83,7 +83,7 @@ export default class Index extends Component {
                 </Col>
                 <Col>
                     <FormGroup>
-                        <Input type="password" placeholder="Re-Enter Password" onChange={this.onRePassword}/>
+                        <Input type="password" placeholder="Re-Enter Password" onChange={this.onReEnteredPassword}/>
                     </FormGroup>
                 </Col>
                 <Button onClick={this.handleSignUp}>SignUp</Button>

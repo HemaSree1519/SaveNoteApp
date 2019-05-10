@@ -16,7 +16,8 @@ import {
 } from "reactstrap";
 import Moment from 'moment'
 import {getUser} from "../../Session/UserSession";
-import {getAllNotesOfUser} from "../../RestService/Notes";
+import {createNote, deleteNote, getAllNotesOfUser} from "../../RestService/Notes";
+import {formNoteDetails} from "./service";
 
 export default class Index extends Component {
     constructor(props) {
@@ -25,7 +26,11 @@ export default class Index extends Component {
             notes: [],
             isEditing: false,
             isWritingNote: false,
-            editingNote: ''
+            editingNote: '',
+            currentNoteTitle: '',
+            currentNoteContent: '',
+            writingNoteTitle: '',
+            writingNoteContent: ''
         }
     }
 
@@ -46,13 +51,67 @@ export default class Index extends Component {
 
     onEdit = (note) => {
         this.setState(prevState => ({
-            isEditing: !prevState.isEditing,
-            editingNote: note
+            isEditingNote: !prevState.isEditingNote,
+            editingNote: note,
+            currentNoteContent: note["content"],
+            currentNoteTitle: note['title']
         }))
     };
-    onWrite = () => {
+
+    onDelete = () => {
+        deleteNote(this.state.editingNote["email"], this.state.editingNote["id"]).then((reponse) => {
+            if (reponse === 200) {
+                this.getNotes().then();
+            }
+        });
+        this.setState(prevState => ({
+            isEditingNote: !prevState.isEditingNote
+        }))
+    }
+    ;
+    onWriteToggle = () => {
         this.setState({
-            isWritingNote: !this.state.isWritingNote
+            isWritingNote: !this.state.isWritingNote,
+            writingNoteTitle: '',
+            writingNoteContent: ''
+        })
+
+    };
+
+    onWriteNoteTitle = (writingNoteTitle) => {
+        console.log(writingNoteTitle.target.value);
+        this.setState({
+            writingNoteTitle: writingNoteTitle.target.value
+        })
+
+    };
+
+    onWriteNoteContent = (writeNoteContent) => {
+        console.log(writeNoteContent.target.value);
+        this.setState({
+            writingNoteContent: writeNoteContent.target.value
+        })
+    };
+    onSaveNewNote = () => {
+        const note = formNoteDetails(this.state.writingNoteTitle, this.state.writingNoteContent);
+        createNote(note).then((response) => {
+            if (response === 200) {
+                this.getNotes().then();
+                this.onWriteToggle();
+            }
+        })
+    };
+    onEditNoteContent = (editedContent) => {
+        console.log(editedContent.target.value);
+        this.setState({
+            currentNoteContent: editedContent.target.value
+        })
+    };
+
+    onEditNoteTitle = (editedTitle) => {
+        console.log(editedTitle.target.value);
+        this.setState({
+            currentNoteTitle: editedTitle.target.value
         })
     };
 
@@ -62,14 +121,22 @@ export default class Index extends Component {
                 <div className="write-note">
                     {!this.state.isWritingNote ?
                         <Input className="note-input" type="text" placeholder="Write a note..." onClick={() => {
-                            this.onWrite();
+                            this.onWriteToggle();
                         }}/>
                         :
                         <Card className="note-input">
-                            <Input className="note-card-input" type="text" placeholder="Title"/>
-                            <Input className="note-card-input" type="textarea" placeholder="Write a note..."/>
+                            <Input className="note-card-title-input" type="text" placeholder="Title"
+                                   value={this.state.writingNoteTitle}
+                                   onChange={this.onWriteNoteTitle}
+                            />
+                            <Input className="note-card-content-input" type="textarea" placeholder="Write a note..."
+                                   value={this.state.writingNoteContent}
+                                   onChange={this.onWriteNoteContent}
+                            />
                             <div className="footer-container">
-                                <Button className="footer-button" onClick={() => this.onWrite()}>Close</Button>
+                                <Button className="footer-button"
+                                        onClick={() => this.onWriteToggle()}>Cancel</Button>{'  '}
+                                <Button className="footer-button" onClick={() => this.onSaveNewNote()}>Save</Button>
                             </div>
                         </Card>
                     }
@@ -97,12 +164,19 @@ export default class Index extends Component {
 
                         </CardColumns>
                     }
-                    <Modal isOpen={this.state.isEditing} toggle={this.onEdit}>
-                        <ModalHeader className="modal-header">{this.state.editingNote["title"]}</ModalHeader>
+                    <Modal isOpen={this.state.isEditingNote} toggle={this.onEdit}>
+                        <ModalHeader>
+                            <Input type="textarea"
+                                   className="note-card-title-input"
+                                   value={this.state.currentNoteTitle}
+                                   onChange={this.onEditNoteTitle}
+                            />
+                        </ModalHeader>
                         <ModalBody>
                             <Input type="textarea"
-                                   className="note-card-input"
-                                   value={this.state.editingNote["content"]}
+                                   className="note-card-content-input"
+                                   value={this.state.currentNoteContent}
+                                   onChange={this.onEditNoteContent}
                                    rows={5}/>
                             <br/>
                             <div className="footer-container">
@@ -111,6 +185,7 @@ export default class Index extends Component {
                             </div>
                         </ModalBody>
                         <ModalFooter className="modal-footer">
+                            <Button className="footer-button" onClick={this.onDelete}>Delete</Button>{'  '}
                             <Button className="footer-button" onClick={this.onEdit}>Close</Button>
                         </ModalFooter>
                     </Modal>
