@@ -14,21 +14,40 @@ import {
     ModalFooter,
     ModalHeader
 } from "reactstrap";
+import Moment from 'moment'
+import {getUser} from "../../Session/UserSession";
+import {getAllNotesOfUser} from "../../RestService/Notes";
 
 export default class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            notes: [1, 2, 3],
-            edit: false,
-            isWritingNote: false
+            notes: [],
+            isEditing: false,
+            isWritingNote: false,
+            editingNote: ''
         }
     }
 
-    onEdit = () => {
-        console.log("Editable");
+    componentDidMount() {
+        this.getNotes().then();
+    }
+
+    getNotes = async () => {
+        const email = getUser();
+        await getAllNotesOfUser(email).then((listOfNotes) => {
+            if (listOfNotes.length > 0) {
+                this.setState({
+                    notes: listOfNotes
+                });
+            }
+        });
+    };
+
+    onEdit = (note) => {
         this.setState(prevState => ({
-            edit: !prevState.edit
+            isEditing: !prevState.isEditing,
+            editingNote: note
         }))
     };
     onWrite = () => {
@@ -58,19 +77,18 @@ export default class Index extends Component {
                 </div>
                 <div>
                     {!this.state.notes.length > 0 ?
-                        <p>"Get your note saved with Save Note app"</p>
+                        <i>"Get your note saved with Save Note app"</i>
                         :
                         <CardColumns>
                             {
                                 this.state.notes.map((note) => {
                                     return (
                                         <Card onClick={() => {
-                                            console.log("Edit the card");
-                                            this.onEdit(true);
+                                            this.onEdit(note);
                                         }}>
                                             <CardBody>
-                                                <CardTitle className="card-title">Note-1</CardTitle>
-                                                <CardText>This is a wider card with supporting.</CardText>
+                                                <CardTitle className="card-title">{note["title"]}</CardTitle>
+                                                <CardText>{note["content"]}</CardText>
                                             </CardBody>
                                         </Card>
                                     )
@@ -79,16 +97,17 @@ export default class Index extends Component {
 
                         </CardColumns>
                     }
-                    <Modal isOpen={this.state.edit} toggle={this.onEdit}>
-                        <ModalHeader className="modal-header">Modal title</ModalHeader>
+                    <Modal isOpen={this.state.isEditing} toggle={this.onEdit}>
+                        <ModalHeader className="modal-header">{this.state.editingNote["title"]}</ModalHeader>
                         <ModalBody>
                             <Input type="textarea"
                                    className="note-card-input"
-                                   value="Write something (data should remain in modal if unmountOnClose is set to false)"
+                                   value={this.state.editingNote["content"]}
                                    rows={5}/>
                             <br/>
                             <div className="footer-container">
-                                <Label className="footer-edited-time">Edited 3:33 PM</Label>
+                                <Label
+                                    className="footer-edited-time">Edited {Moment(this.state.editingNote['updatedAt']).format('lll')}</Label>
                             </div>
                         </ModalBody>
                         <ModalFooter className="modal-footer">

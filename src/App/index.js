@@ -4,6 +4,7 @@ import {Collapse, Label, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLi
 import Routes from "../Router/Routes";
 import {withRouter} from "react-router-dom";
 import {LinkContainer} from "react-router-bootstrap";
+import {resetUser} from "../Session/UserSession";
 
 class App extends Component {
     constructor(props) {
@@ -20,11 +21,12 @@ class App extends Component {
     handleLogout = () => {
         try {
             this.setState({isAuthenticated: !this.state.isAuthenticated});
+            resetUser();
             this.props.history.push("/");
         } catch (e) {
             alert(e.message);
         }
-    }
+    };
 
     render() {
         const childProps = {

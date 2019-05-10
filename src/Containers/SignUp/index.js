@@ -4,6 +4,7 @@ import {Button, Col, Form, FormGroup, Input} from "reactstrap";
 import {formUserDetails, isMatchingPassword} from "./service";
 import {createUser} from "../../RestService/User";
 import {CODES} from "../../ErrorCodes/codes";
+import {setUser} from "../../Session/UserSession";
 
 let userEmail = '';
 let userPwd = '';
@@ -25,6 +26,7 @@ export default class Index extends Component {
                     switch (response) {
                         case 200 :
                             this.props.userHasAuthenticated(true);
+                            setUser(userEmail);
                             this.props.history.push('/notes');
                             break;
                         case 404 :

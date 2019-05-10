@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "./style.css";
 
 export default class Index extends Component {
@@ -6,7 +6,7 @@ export default class Index extends Component {
         return (
             <div className="Home">
                 <div className="lander">
-                    <p>A simple note taking app</p>
+                    <p>A simple notes saving app</p>
                 </div>
             </div>
         );

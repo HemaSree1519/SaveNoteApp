@@ -3,6 +3,7 @@ import "./style.css";
 import {Button, Col, Form, FormGroup, Input} from "reactstrap";
 import {CODES} from "../../ErrorCodes/codes";
 import {isAuthenticated} from "./service";
+import {setUser} from "../../Session/UserSession";
 
 let userEmail = '';
 let userPwd = '';
@@ -22,6 +23,7 @@ export default class Index extends Component {
             await isAuthenticated(userEmail, userPwd).then((responce) => {
                 if (responce === true) {
                     this.props.userHasAuthenticated(true);
+                    setUser(userEmail);
                     this.props.history.push('/notes');
                 }
                 else {
