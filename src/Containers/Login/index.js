@@ -56,8 +56,7 @@ export default class Index extends Component {
                 {this.state.isError && <p className="error">{this.state.errorMessage}</p>}
                 <Col>
                     <FormGroup>
-                        <Input type="email" name="email"
-                               placeholder="example@gmail.com" onChange={this.onEmail}/>
+                        <Input type="email" name="email" placeholder="example@gmail.com" onChange={this.onEmail}/>
                     </FormGroup>
                 </Col>
                 <Col>
