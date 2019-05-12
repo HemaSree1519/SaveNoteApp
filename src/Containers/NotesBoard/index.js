@@ -1,23 +1,12 @@
 import React, {Component} from "react";
 import "./style.css"
-import {
-    Button,
-    Card,
-    CardBody,
-    CardColumns,
-    CardText,
-    CardTitle,
-    Input,
-    Label,
-    Modal,
-    ModalBody,
-    ModalFooter,
-    ModalHeader
-} from "reactstrap";
-import Moment from 'moment'
+import {CardColumns, Input} from "reactstrap";
 import {getUser} from "../../Session/UserSession";
 import {createNote, deleteNote, getAllNotesOfUser, updateNote} from "../../RestService/Notes";
 import {formNoteDetails, formUpdatedNote} from "./service";
+import {editNoteView} from "./views/EditeNote";
+import {noteView} from "./views/Note";
+import {writeNoteView} from "./views/WriteNote";
 
 export default class Index extends Component {
     constructor(props) {
@@ -28,76 +17,52 @@ export default class Index extends Component {
             isEditing: false,
             isWritingNote: false,
             editingNote: '',
-            currentNoteTitle: '',
-            currentNoteContent: '',
+            editingNoteTitle: '',
+            editingNoteContent: '',
             writingNoteTitle: '',
             writingNoteContent: ''
         }
     }
 
     componentDidMount() {
-        this.getNotes().then();
+        this.getNotes().then()
     }
 
     getNotes = async () => {
         const email = getUser();
+        console.log(email);
         await getAllNotesOfUser(email).then((listOfNotes) => {
-            if (listOfNotes.length > 0) {
-                this.setState({
-                    notes: listOfNotes
-                });
-            }
+            this.setState({notes: listOfNotes})
         });
     };
 
-    onEdit = (note) => {
+    setEditState = (note) => {
         this.setState(prevState => ({
             isEditingNote: !prevState.isEditingNote,
-            editingNote: note,
-            currentNoteContent: note["content"],
-            currentNoteTitle: note['title']
+            editingNote: note !== '' ? note : [],
+            editingNoteContent: note !== '' ? note["content"] : '',
+            editingNoteTitle: note !== '' ? note['title'] : ''
         }))
     };
-
     onDelete = () => {
         deleteNote(this.state.editingNote["email"], this.state.editingNote["id"]).then((reponse) => {
             if (reponse === 200) {
-                this.getNotes().then();
+                this.getNotes().then()
             }
         });
-        this.setState(prevState => ({
-            isEditingNote: !prevState.isEditingNote,
-            editingNote: [],
-            currentNoteContent: '',
-            currentNoteTitle: ''
-        }))
+        this.setEditState('')
     };
     onWriteToggle = () => {
         if (getUser()) {
-            this.setState({
-                isWritingNote: !this.state.isWritingNote,
-                writingNoteTitle: '',
-                writingNoteContent: ''
-            })
+            this.setState({isWritingNote: !this.state.isWritingNote, writingNoteTitle: '', writingNoteContent: ''})
         }
-        else {
-            this.setState({
-                message: "Please loggin to add note"
-            })
-        }
+        else this.setState({message: "Please loggin to add note"})
     };
-
     onWriteNoteTitle = (writingNoteTitle) => {
-        this.setState({
-            writingNoteTitle: writingNoteTitle.target.value
-        })
-
+        this.setState({writingNoteTitle: writingNoteTitle.target.value})
     };
-
     onWriteNoteContent = (writeNoteContent) => {
-        this.setState({
-            writingNoteContent: writeNoteContent.target.value
-        })
+        this.setState({writingNoteContent: writeNoteContent.target.value})
     };
     onSaveNewNote = () => {
         const note = formNoteDetails(this.state.writingNoteTitle, this.state.writingNoteContent);
@@ -109,107 +74,54 @@ export default class Index extends Component {
         })
     };
     onEditNoteContent = (editedContent) => {
-        this.setState({
-            currentNoteContent: editedContent.target.value
-        })
+        this.setState({editingNoteContent: editedContent.target.value})
     };
 
     onEditNoteTitle = (editedTitle) => {
-        this.setState({
-            currentNoteTitle: editedTitle.target.value
-        })
+        this.setState({editingNoteTitle: editedTitle.target.value})
     };
-
     onUpdateNote = () => {
-        const updatedNote = formUpdatedNote(this.state.editingNote, this.state.currentNoteTitle, this.state.currentNoteContent);
+        const updatedNote = formUpdatedNote(this.state.editingNote, this.state.editingNoteTitle, this.state.editingNoteContent);
         updateNote(this.state.editingNote["id"], updatedNote).then((repsonse) => {
             if (repsonse === 200) {
-                this.getNotes().then();
+                this.getNotes().then()
             }
         });
-        this.setState(prevState => ({
-            isEditingNote: !prevState.isEditingNote,
-            editingNote: '',
-            currentNoteContent: '',
-            currentNoteTitle: ''
-        }))
+        this.setEditState('')
     };
 
     render() {
+        const props = {
+            isEditingNote: this.state.isEditingNote,
+            editingNote: this.state.editingNote,
+            editingNoteTitle: this.state.editingNoteTitle,
+            editingNoteContent: this.state.editingNoteContent,
+            setEditState: this.setEditState,
+            onDelete: this.onDelete,
+            onUpdateNote: this.onUpdateNote,
+            onEditNoteContent: this.onEditNoteContent,
+            onEditNoteTitle: this.onEditNoteTitle,
+            writingNoteTitle: this.state.writingNoteTitle,
+            writingNoteContent: this.state.writingNoteContent,
+            onWriteNoteTitle: this.onWriteNoteTitle,
+            onWriteNoteContent: this.onWriteNoteContent,
+            onWriteToggle: this.onWriteToggle,
+            onSaveNewNote: this.onSaveNewNote
+        };
         return (
             <div className="dash-board">
                 <div className="write-note">
                     {!this.state.isWritingNote ?
                         <Input className="note-input" type="text" placeholder="Write a note..." onClick={() => {
                             this.onWriteToggle();
-                        }}/>
-                        :
-                        <Card className="note-input">
-                            <Input className="note-card-title-input" type="text" placeholder="Title"
-                                   value={this.state.writingNoteTitle}
-                                   onChange={this.onWriteNoteTitle}
-                            />
-                            <Input className="note-card-content-input" type="textarea" placeholder="Write a note..."
-                                   value={this.state.writingNoteContent}
-                                   onChange={this.onWriteNoteContent}
-                            />
-                            <div className="footer-container">
-                                <Button className="footer-button"
-                                        onClick={() => this.onWriteToggle()}>Cancel</Button>{'  '}
-                                <Button className="footer-button" onClick={() => this.onSaveNewNote()}>Save</Button>
-                            </div>
-                        </Card>
-                    }
-
+                        }}/> : writeNoteView(props)}
                 </div>
                 <div>
-                    {!this.state.notes.length > 0 ?
-                        <i>{this.state.message}</i>
-                        :
-                        <CardColumns>
-                            {
-                                this.state.notes.map((note) => {
-                                    return (
-                                        <Card
-                                            onClick={() => {
-                                                this.onEdit(note);
-                                            }}>
-                                            <CardBody>
-                                                <CardTitle className="card-title">{note["title"]}</CardTitle>
-                                                <CardText>{note["content"]}</CardText>
-                                            </CardBody>
-                                        </Card>
-                                    )
-                                })
-                            }
-
-                        </CardColumns>
-                    }
-                    <Modal isOpen={this.state.isEditingNote} toggle={this.onEdit}>
-                        <ModalHeader>
-                            <Input type="textarea"
-                                   className="note-card-title-input"
-                                   value={this.state.currentNoteTitle}
-                                   onChange={this.onEditNoteTitle}
-                            />
-                        </ModalHeader>
-                        <ModalBody>
-                            <Input type="textarea"
-                                   className="note-card-content-input"
-                                   value={this.state.currentNoteContent}
-                                   onChange={this.onEditNoteContent}
-                                   rows={5}/>
-                            <br/>
-                            <div className="footer-container">
-                                <Label
-                                    className="footer-edited-time">Edited {Moment(this.state.editingNote['updatedAt']).format('lll')}</Label>
-                            </div>
-                        </ModalBody>
-                        <ModalFooter className="modal-footer">
-                            <Button className="footer-button" onClick={this.onDelete}>Delete</Button>{'  '}
-                            <Button className="footer-button" onClick={this.onUpdateNote}>Close</Button>
-                        </ModalFooter>
-                    </Modal>
+                    {!this.state.notes.length > 0 ? <i>{this.state.message}</i> : <CardColumns>
+                        {this.state.notes.map((note) => {
+                            return (noteView(note, this.setEditState))
+                        })}</CardColumns>}
+                    {this.state.isEditingNote && editNoteView(props)}
                 </div>
             </div>
         );
