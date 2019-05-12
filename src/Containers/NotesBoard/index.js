@@ -4,9 +4,9 @@ import {CardColumns, Input} from "reactstrap";
 import {getUser} from "../../Session/UserSession";
 import {createNote, deleteNote, getAllNotesOfUser, updateNote} from "../../RestService/Notes";
 import {formNoteDetails, formUpdatedNote} from "./service";
-import {editNoteView} from "./views/EditeNote";
-import {noteView} from "./views/Note";
-import {writeNoteView} from "./views/WriteNote";
+import WriteNote from "./views/WriteNote";
+import Note from "./views/Note";
+import EditNote from "./views/EditNote";
 
 export default class Index extends Component {
     constructor(props) {
@@ -65,7 +65,7 @@ export default class Index extends Component {
         this.setState({writingNoteContent: writeNoteContent.target.value})
     };
     onCloseNewNote = () => {
-        if(this.state.writingNoteTitle!=='' || this.state.writingNoteContent!==''){
+        if (this.state.writingNoteTitle !== '' || this.state.writingNoteContent !== '') {
             const note = formNoteDetails(this.state.writingNoteTitle, this.state.writingNoteContent);
             createNote(note).then((response) => {
                 if (response === 200) {
@@ -116,14 +116,14 @@ export default class Index extends Component {
                     {!this.state.isWritingNote ?
                         <Input className="note-input" type="text" placeholder="Write a note..." onClick={() => {
                             this.onWriteToggle();
-                        }}/> : writeNoteView(props)}
+                        }}/> : <WriteNote childProps={props}/>}
                 </div>
                 <div>
                     {!this.state.notes.length > 0 ? <i>{this.state.message}</i> : <CardColumns>
                         {this.state.notes.map((note) => {
-                            return (noteView(note, this.setEditState))
+                            return (<Note note={note} setEditState={this.setEditState}/>)
                         })}</CardColumns>}
-                    {this.state.isEditingNote && editNoteView(props)}
+                    {this.state.isEditingNote && <EditNote childProps={props}/>}
                 </div>
             </div>
         );

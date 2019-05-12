@@ -1,16 +1,18 @@
 import {Card, CardBody, CardText, CardTitle} from "reactstrap";
-import React from "react";
+import React,{Component} from "react";
 
-export const noteView = (note,setEditState) =>{
-  return(
-      <Card
-          onClick={() => {
-              setEditState(note);
-          }}>
-          <CardBody>
-              <CardTitle className="card-title">{note["title"]}</CardTitle>
-              <CardText>{note["content"]}</CardText>
-          </CardBody>
-      </Card>
-  )
+export default class Note extends Component{
+    render(){
+        return(
+            <Card name="card"
+                onClick={() => {
+                    this.props.setEditState(this.props.note);
+                }}>
+                <CardBody>
+                    <CardTitle name="title" className="card-title">{this.props.note["title"]}</CardTitle>
+                    <CardText name="content">{this.props.note["content"]}</CardText>
+                </CardBody>
+            </Card>
+        )
+    }
 };
