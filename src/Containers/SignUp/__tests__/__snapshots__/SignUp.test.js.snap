@@ -53,6 +53,7 @@ ShallowWrapper {
           <FormGroup
                     tag="div">
                     <Input
+                              name="password"
                               onChange={[Function]}
                               placeholder="Password"
                               type="password" />
@@ -72,6 +73,7 @@ ShallowWrapper {
           <FormGroup
                     tag="div">
                     <Input
+                              name="rePassword"
                               onChange={[Function]}
                               placeholder="Re-Enter Password"
                               type="password" />
@@ -154,6 +156,7 @@ ShallowWrapper {
           "children": <FormGroup
             tag="div">
             <Input
+                        name="password"
                         onChange={[Function]}
                         placeholder="Password"
                         type="password" />
@@ -174,6 +177,7 @@ ShallowWrapper {
           "nodeType": "function",
           "props": Object {
             "children": <Input
+              name="password"
               onChange={[Function]}
               placeholder="Password"
               type="password" />,
@@ -185,6 +189,7 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
+              "name": "password",
               "onChange": [Function],
               "placeholder": "Password",
               "type": "password",
@@ -205,6 +210,7 @@ ShallowWrapper {
           "children": <FormGroup
             tag="div">
             <Input
+                        name="rePassword"
                         onChange={[Function]}
                         placeholder="Re-Enter Password"
                         type="password" />
@@ -225,6 +231,7 @@ ShallowWrapper {
           "nodeType": "function",
           "props": Object {
             "children": <Input
+              name="rePassword"
               onChange={[Function]}
               placeholder="Re-Enter Password"
               type="password" />,
@@ -236,6 +243,7 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
+              "name": "rePassword",
               "onChange": [Function],
               "placeholder": "Re-Enter Password",
               "type": "password",
@@ -308,6 +316,7 @@ ShallowWrapper {
             <FormGroup
                         tag="div">
                         <Input
+                                    name="password"
                                     onChange={[Function]}
                                     placeholder="Password"
                                     type="password" />
@@ -327,6 +336,7 @@ ShallowWrapper {
             <FormGroup
                         tag="div">
                         <Input
+                                    name="rePassword"
                                     onChange={[Function]}
                                     placeholder="Re-Enter Password"
                                     type="password" />
@@ -409,6 +419,7 @@ ShallowWrapper {
             "children": <FormGroup
               tag="div">
               <Input
+                            name="password"
                             onChange={[Function]}
                             placeholder="Password"
                             type="password" />
@@ -429,6 +440,7 @@ ShallowWrapper {
             "nodeType": "function",
             "props": Object {
               "children": <Input
+                name="password"
                 onChange={[Function]}
                 placeholder="Password"
                 type="password" />,
@@ -440,6 +452,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
+                "name": "password",
                 "onChange": [Function],
                 "placeholder": "Password",
                 "type": "password",
@@ -460,6 +473,7 @@ ShallowWrapper {
             "children": <FormGroup
               tag="div">
               <Input
+                            name="rePassword"
                             onChange={[Function]}
                             placeholder="Re-Enter Password"
                             type="password" />
@@ -480,6 +494,7 @@ ShallowWrapper {
             "nodeType": "function",
             "props": Object {
               "children": <Input
+                name="rePassword"
                 onChange={[Function]}
                 placeholder="Re-Enter Password"
                 type="password" />,
@@ -491,6 +506,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
+                "name": "rePassword",
                 "onChange": [Function],
                 "placeholder": "Re-Enter Password",
                 "type": "password",

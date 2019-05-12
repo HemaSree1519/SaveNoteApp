@@ -56,13 +56,13 @@ export default class Index extends Component {
                 {this.state.isError && <p className="error">{this.state.errorMessage}</p>}
                 <Col>
                     <FormGroup>
-                        <Input type="email" name="email" id="exampleEmail"
+                        <Input type="email" name="email"
                                placeholder="example@gmail.com" onChange={this.onEmail}/>
                     </FormGroup>
                 </Col>
                 <Col>
                     <FormGroup>
-                        <Input type="password" placeholder="Password" onChange={this.onPassword}/>
+                        <Input type="password" name="password" placeholder="Password" onChange={this.onPassword}/>
                     </FormGroup>
                 </Col>
                 <Button onClick={this.handleLogin}>Login</Button>

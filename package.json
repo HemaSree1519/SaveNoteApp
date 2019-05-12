@@ -11,7 +11,8 @@
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "0.9.x",
-    "reactstrap": "^8.0.0"
+    "reactstrap": "^8.0.0",
+    "sinon": "^7.3.2"
   },
   "devDependencies": {
     "babel-jest": "^24.8.0",
@@ -19,9 +20,9 @@
     "enzyme-adapter-react-16": "^1.13.0",
     "enzyme-to-json": "^3.3.5",
     "jest": "^24.8.0",
-    "regenerator-runtime": "^0.13.2",
     "jest-cli": "18.1.0",
-    "jest-react-native": "16.0.0"
+    "jest-react-native": "16.0.0",
+    "regenerator-runtime": "^0.13.2"
   },
   "scripts": {
     "start": "react-scripts start",

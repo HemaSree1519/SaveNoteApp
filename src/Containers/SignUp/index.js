@@ -78,12 +78,12 @@ export default class Index extends Component {
                 </Col>
                 <Col>
                     <FormGroup>
-                        <Input type="password" placeholder="Password" onChange={this.onPassword}/>
+                        <Input type="password" name="password" placeholder="Password" onChange={this.onPassword}/>
                     </FormGroup>
                 </Col>
                 <Col>
                     <FormGroup>
-                        <Input type="password" placeholder="Re-Enter Password" onChange={this.onReEnteredPassword}/>
+                        <Input type="password" name="rePassword" placeholder="Re-Enter Password" onChange={this.onReEnteredPassword}/>
                     </FormGroup>
                 </Col>
                 <Button onClick={this.handleSignUp}>SignUp</Button>
