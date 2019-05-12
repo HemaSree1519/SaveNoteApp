@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/jest": "^24.0.12",
     "bootstrap": "^4.3.1",
     "moment": "^2.24.0",
     "react": "^16.8.6",
@@ -12,12 +13,31 @@
     "react-scripts": "0.9.x",
     "reactstrap": "^8.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-jest": "^24.8.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.0",
+    "enzyme-to-json": "^3.3.5",
+    "jest": "^24.8.0",
+    "regenerator-runtime": "^0.13.2",
+    "jest-cli": "18.1.0",
+    "jest-react-native": "16.0.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --colors",
     "eject": "react-scripts eject"
+  },
+  "setupFiles": [
+    "./src/setupTests.js"
+  ],
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "proxy": "http://localhost:1235"
 }
