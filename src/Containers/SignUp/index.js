@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "./style.css";
 import {Button, Col, Form, FormGroup, Input} from "reactstrap";
-import {formUserDetails, isMatchingPassword} from "./service";
+import {areMatchingPasswords, formUserDetails} from "./service";
 import {createUser} from "../../RestService/User";
 import {CODES} from "../../ErrorCodes/codes";
 import {setUser} from "../../Session/UserSession";
@@ -21,7 +21,7 @@ export default class Index extends Component {
     handleSignUp = async event => {
         event.preventDefault();
         try {
-            if (isMatchingPassword(userPassword, userReEnteredPassword)) {
+            if (areMatchingPasswords(userPassword, userReEnteredPassword)) {
                 await createUser(formUserDetails(userEmail, userPassword)).then((response) => {
                     switch (response) {
                         case 200 :

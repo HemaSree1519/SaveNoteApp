@@ -64,14 +64,16 @@ export default class Index extends Component {
     onWriteNoteContent = (writeNoteContent) => {
         this.setState({writingNoteContent: writeNoteContent.target.value})
     };
-    onSaveNewNote = () => {
-        const note = formNoteDetails(this.state.writingNoteTitle, this.state.writingNoteContent);
-        createNote(note).then((response) => {
-            if (response === 200) {
-                this.getNotes().then();
-                this.onWriteToggle();
-            }
-        })
+    onCloseNewNote = () => {
+        if(this.state.writingNoteTitle!=='' || this.state.writingNoteContent!==''){
+            const note = formNoteDetails(this.state.writingNoteTitle, this.state.writingNoteContent);
+            createNote(note).then((response) => {
+                if (response === 200) {
+                    this.getNotes().then();
+                }
+            })
+        }
+        this.onWriteToggle();
     };
     onEditNoteContent = (editedContent) => {
         this.setState({editingNoteContent: editedContent.target.value})
@@ -106,7 +108,7 @@ export default class Index extends Component {
             onWriteNoteTitle: this.onWriteNoteTitle,
             onWriteNoteContent: this.onWriteNoteContent,
             onWriteToggle: this.onWriteToggle,
-            onSaveNewNote: this.onSaveNewNote
+            onCloseNewNote: this.onCloseNewNote
         };
         return (
             <div className="dash-board">

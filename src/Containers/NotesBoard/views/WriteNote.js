@@ -13,9 +13,7 @@ export const writeNoteView = (props) => {
                    onChange={props.onWriteNoteContent}
             />
             <div className="footer-container">
-                <Button className="footer-button"
-                        onClick={() => props.onWriteToggle()}>Cancel</Button>{'  '}
-                <Button className="footer-button" onClick={() => props.onSaveNewNote()}>Save</Button>
+                <Button className="footer-button" onClick={() => props.onCloseNewNote()}>Close</Button>
             </div>
         </Card>
     )

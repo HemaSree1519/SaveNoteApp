@@ -1,4 +1,4 @@
-export const isMatchingPassword = (password, rePassword) => {
+export const areMatchingPasswords = (password, rePassword) => {
     return password === rePassword;
 };
 

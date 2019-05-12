@@ -6,4 +6,5 @@ describe('SignUp', () => {
         const component = shallow(<Index/>);
         expect(component).toMatchSnapshot();
     });
+
 });
