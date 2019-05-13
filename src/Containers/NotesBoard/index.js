@@ -3,7 +3,7 @@ import "./style.css"
 import {CardColumns, Input} from "reactstrap";
 import {getUser} from "../../Session/UserSession";
 import {createNote, deleteNote, getAllNotesOfUser, updateNote} from "../../RestService/Notes";
-import {formNoteDetails, formUpdatedNote} from "./service";
+import {formNoteDetails, formUpdatedNoteDetails, hadEdited} from "./service";
 import WriteNote from "./views/WriteNote";
 import Note from "./views/Note";
 import EditNote from "./views/EditNote";
@@ -30,7 +30,6 @@ export default class Index extends Component {
 
     getNotes = async () => {
         const email = getUser();
-        console.log(email);
         await getAllNotesOfUser(email).then((listOfNotes) => {
             this.setState({notes: listOfNotes})
         });
@@ -83,12 +82,14 @@ export default class Index extends Component {
         this.setState({editingNoteTitle: editedTitle.target.value})
     };
     onUpdateNote = () => {
-        const updatedNote = formUpdatedNote(this.state.editingNote, this.state.editingNoteTitle, this.state.editingNoteContent);
-        updateNote(this.state.editingNote["id"], updatedNote).then((repsonse) => {
-            if (repsonse === 200) {
-                this.getNotes().then()
-            }
-        });
+        if (hadEdited(this.state.editingNote, this.state.editingNoteTitle, this.state.editingNoteContent)) {
+            const updatedNote = formUpdatedNoteDetails(this.state.editingNote, this.state.editingNoteTitle, this.state.editingNoteContent);
+            updateNote(this.state.editingNote["id"], updatedNote).then((repsonse) => {
+                if (repsonse === 200) {
+                    this.getNotes().then()
+                }
+            });
+        }
         this.setEditState('')
     };
 
