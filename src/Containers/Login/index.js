@@ -24,6 +24,8 @@ export default class Index extends Component {
                 if (responce === true) {
                     this.props.userHasAuthenticated(true);
                     setUser(userEmail);
+                    userEmail='';
+                    userPassword='';
                     this.props.history.push('/notes');
                 }
                 else {

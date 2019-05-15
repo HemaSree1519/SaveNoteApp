@@ -27,6 +27,8 @@ export default class Index extends Component {
                         case 200 :
                             this.props.userHasAuthenticated(true);
                             setUser(userEmail);
+                            userEmail='';
+                            userPassword='';
                             this.props.history.push('/notes');
                             break;
                         case 404 :
